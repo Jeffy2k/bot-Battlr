@@ -3,6 +3,8 @@ import "./App.css";
 import BotCollection from "./components/BotCollection";
 import BotProfile from './components/botprofile';
 import YourBotArmy from "./components/YourBotArmy";
+import { BrowserRouter as Router ,Route,Switch } from "react-router-dom"
+import OneBot from './components/OneBot';
 
 
 
@@ -11,6 +13,10 @@ function App() {
   let [bots ,setBots] = useState([])
   let [botsChosen ,setBotChosen] = useState(0)
   let[numbersArray,setArray] = useState ([])
+  const [currentPage,setPage] = useState("/home")
+  let [picId,setId]  = useState(0)
+  let [isTrue,setTrue] = useState(true)
+  let [newArray,setNewArray] = useState([])
 
 useEffect(()=>{
   fetch("http://localhost:8000/bots")
@@ -21,6 +27,28 @@ useEffect(()=>{
   })
 },[])
 
+function sortByHealth(){
+ let data = bots.sort((a,b)=>{
+    let categoryA = a.health
+    let categoryB = b.health
+  
+    if(categoryA > categoryB ) {
+      return -1;
+  }
+  if (categoryA < categoryB ) {
+      return 1;
+  }
+  return 0;
+  })
+    setNewArray(data)
+    setBots(data)
+}
+
+function handleId(value) {
+  setId(value)
+}
+
+console.log(picId)
 function addBot(id,name,image,phrase,health,armor,damage){
  let array = [...numbersArray]
   array.push(id)
@@ -53,10 +81,19 @@ function addBot(id,name,image,phrase,health,armor,damage){
 }
 
   return (
+    <Router>
     <main>
-      <YourBotArmy />
-      <BotCollection addBot = {addBot} bots = {bots}/>
+      <YourBotArmy sortByHealth = {sortByHealth}/>
+      <Switch>
+       <Route path="/home">
+         <BotCollection handleId = {handleId} addBot = {addBot} bots = {bots}/>
+       </Route>
+       <Route path="/bot">
+        <OneBot addBot = {addBot} bots = {bots} picId = {picId}/>
+       </Route>
+        </Switch>
     </main>
+    </Router>
   );
 }
 

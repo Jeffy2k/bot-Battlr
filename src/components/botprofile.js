@@ -1,14 +1,14 @@
 import { React,useState }  from "react";
+import { NavLink } from "react-router-dom";
 import "../style/botProfile.css"
+import OneBot from "./OneBot";
 
-function BotProfile({id,image,name,phrase,health,armor,damage,addBot}) {
+function BotProfile({id,image,name,phrase,health,armor,damage,addBot,handleId}) {
   let [state,setState] = useState('')
-
     return ( 
-        <div onClick={(e)=>{
-            addBot(id,name,image,phrase,health,armor,damage)
-        }} className = "hi"id = "card"
-        >
+        <NavLink onClick={()=>{
+          handleId(id)
+        }} to = "/bot"  className = "hi"id = "card">
           <img src = {image}></img>
           <h5 id ="botName">{name}</h5>
           <h7 id = "botPhrase" >{phrase}</h7>
@@ -16,7 +16,7 @@ function BotProfile({id,image,name,phrase,health,armor,damage,addBot}) {
         e.stopPropagation()
         console.log("onClick");
         }}id="delete">X</button></span>
-        </div>
+        </NavLink>
      );
 } 
 

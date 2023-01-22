@@ -12,6 +12,8 @@ img{
     border-radius: 10px;
     border: 2px solid rgb(162, 161, 161);
     text-overflow: ellipsis;
+    text-decoration: none;
+    color: black;
 }
 
 #card:hover{
