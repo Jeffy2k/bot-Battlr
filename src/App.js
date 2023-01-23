@@ -19,14 +19,29 @@ function App() {
   let [newArray,setNewArray] = useState([])
   let [sort,setSort] = useState()
 
+  let [dataArray,setDataArray] = useState([])
+
 useEffect(()=>{
   fetch("https://json-server2-vercel.vercel.app/bots")
   .then((res)=> res.json())
   .then((data) =>{
     setBots(data)
+    setDataArray(data)
     console.log(data);
   })
 },[])
+
+let newDataArray = [...dataArray]
+
+function deleteWithoutRefresh(value) {
+  let deletedBot =  newDataArray.filter((item)=>{return item.id === parseInt(value)})
+  let index = newDataArray.findIndex((item)=>{return item.id === value})
+  newDataArray.splice(index, 1)
+  console.log(newDataArray)
+  setBots(newDataArray)
+}
+
+
 
 function handleSort(value){
   // console.log(value)
@@ -128,7 +143,7 @@ function addBot(id,name,image,phrase,health,armor,damage){
       <YourBotArmy handleSort={handleSort}/>
       <Switch>
        <Route exact path="/">
-         <BotCollection handleId = {handleId} addBot = {addBot} bots = {bots}/>
+         <BotCollection deleteWithoutRefresh={deleteWithoutRefresh} handleId = {handleId} addBot = {addBot} bots = {bots}/>
        </Route>
        <Route path="/bot">
         <OneBot addBot = {addBot} bots = {bots} picId = {picId}/>
