@@ -17,9 +17,10 @@ function App() {
   let [picId,setId]  = useState(0)
   let [isTrue,setTrue] = useState(true)
   let [newArray,setNewArray] = useState([])
+  let [sort,setSort] = useState()
 
 useEffect(()=>{
-  fetch("http://localhost:8000/bots")
+  fetch("https://json-server2-vercel.vercel.app/bots")
   .then((res)=> res.json())
   .then((data) =>{
     setBots(data)
@@ -27,21 +28,60 @@ useEffect(()=>{
   })
 },[])
 
-function sortByHealth(){
- let data = bots.sort((a,b)=>{
-    let categoryA = a.health
-    let categoryB = b.health
-  
-    if(categoryA > categoryB ) {
-      return -1;
+function handleSort(value){
+  // console.log(value)
+
+  if(value === 'health'){
+    let data = bots.sort((a,b)=>{
+      let categoryA = a.health
+      let categoryB = b.health
+    
+      if(categoryA > categoryB ) {
+        return -1;
+    }
+    if (categoryA < categoryB ) {
+        return 1;
+    }
+    return 0;
+    })
+      setNewArray(data)
+      console.log(data)
+      setBots(data)
+    }
+  if(value === 'armor'){
+    let data = bots.sort((a,b)=>{
+      let categoryA = a.armor
+      let categoryB = b.armor
+    
+      if(categoryA > categoryB ) {
+        return -1;
+    }
+    if (categoryA < categoryB ) {
+        return 1;
+    }
+    return 0;
+    })
+      setNewArray(data)
+      console.log(data)
+      setBots(data)
   }
-  if (categoryA < categoryB ) {
-      return 1;
+  if(value === 'damage'){
+    let data = bots.sort((a,b)=>{
+      let categoryA = a.damage
+      let categoryB = b.damage
+    
+      if(categoryA > categoryB ) {
+        return -1;
+    }
+    if (categoryA < categoryB ) {
+        return 1;
+    }
+    return 0;
+    })
+      setNewArray(data)
+      console.log(data)
+      setBots(data)
   }
-  return 0;
-  })
-    setNewArray(data)
-    setBots(data)
 }
 
 function handleId(value) {
@@ -49,6 +89,8 @@ function handleId(value) {
 }
 
 console.log(picId)
+
+
 function addBot(id,name,image,phrase,health,armor,damage){
  let array = [...numbersArray]
   array.push(id)
@@ -83,9 +125,9 @@ function addBot(id,name,image,phrase,health,armor,damage){
   return (
     <Router>
     <main>
-      <YourBotArmy sortByHealth = {sortByHealth}/>
+      <YourBotArmy handleSort={handleSort}/>
       <Switch>
-       <Route path="/home">
+       <Route exact path="/">
          <BotCollection handleId = {handleId} addBot = {addBot} bots = {bots}/>
        </Route>
        <Route path="/bot">

@@ -25,7 +25,7 @@ let oneBot = bots.filter((item) => {return item.id === picId})
         </i>
         <h5 id="ability">{oneBot[0].damage}</h5>
       </span>
-      <NavLink to = './home' id="button">Go Back</NavLink>
+      <NavLink to = './' id="button">Go Back</NavLink>
       <br />
       <button onClick = {
          ()=>{

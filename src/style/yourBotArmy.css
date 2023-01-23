@@ -52,5 +52,11 @@
     margin-left: .6em;
 }
 
-
-
+#select{
+    height: 2em;
+    position: relative;
+    top: 16em;
+    left: .5em;
+    width: 7em;
+    font-size: 1em;
+}
